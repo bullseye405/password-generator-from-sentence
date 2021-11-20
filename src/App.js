@@ -22,13 +22,16 @@ export default function App() {
       if (word) {
         const firstLetter = word[0];
         const middleLetter = word[Math.ceil(word.length / 2) - 1];
-        const lastLetter = word[word.length - 1];
+        const lastLetter =
+          i % 2 === 0
+            ? word[word.length - 1]
+            : word[word.length - 1].toUpperCase();
         if (word.length < 3) {
-          newString += firstLetter.toUpperCase();
+          newString += firstLetter;
         } else if (word.length >= 3 && word.length < 5) {
-          newString += firstLetter + lastLetter.toUpperCase();
+          newString += lastLetter + firstLetter;
         } else {
-          newString += firstLetter + middleLetter.toUpperCase() + lastLetter;
+          newString += lastLetter + middleLetter + firstLetter;
         }
 
         newString += specialCharacter[i % 10];
