@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Input, Button, TextField, Box, Typography, Card } from "@mui/material";
+
 import "./styles.css";
 
 export default function App() {
@@ -17,15 +19,13 @@ export default function App() {
 
     let data = sentence;
     let newString = "";
-    const splittedWords = data.split(" ");
-    splittedWords.map((word, i) => {
+    const splitWords = data.split(" ");
+    splitWords.map((word, i) => {
       if (word) {
         const firstLetter = word[0];
         const middleLetter = word[Math.ceil(word.length / 2) - 1];
         const lastLetter =
-          i % 2 === 0
-            ? word[word.length - 1]
-            : word[word.length - 1].toUpperCase();
+          i % 2 === 0 ? word[word.length - 1] : word[word.length - 1].toUpperCase();
         if (word.length < 3) {
           newString += firstLetter;
         } else if (word.length >= 3 && word.length < 5) {
@@ -42,23 +42,31 @@ export default function App() {
     setGenerated(newString);
   };
   return (
-    <div className="App">
-      <div className="input-container">
-        <label>Type a sentence</label>
-        <input type="text" value={input} onChange={handleInputChange} />
-        <div className="btn-container">
-          <button onClick={clearAll} label="Clear">
-            <p>Clear</p>
-          </button>
-          <button onClick={() => handleGenerate(input)} label="Clear">
-            <p>Generate</p>
-          </button>
-        </div>
-      </div>
-      <div className="body">
-        <p>{input}</p>
-        <h3>{generated}</h3>
-      </div>
-    </div>
+    <Box
+      sx={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", flexGrow: 1 }}
+    >
+      <Card variant="outlined">
+        <TextField
+          id="outlined-basic"
+          label="Type your sentence"
+          variant="outlined"
+          required
+          onChange={handleInputChange}
+        />
+
+        <Box flex={1}>
+          <Button onClick={clearAll} label="Clear">
+            Clear
+          </Button>
+          <Button variant="contained" onClick={() => handleGenerate(input)} label="Clear">
+            Generate
+          </Button>
+        </Box>
+        <Box>
+          <Typography>{input}</Typography>
+          <Typography variant="h6">{generated}</Typography>
+        </Box>
+      </Card>
+    </Box>
   );
 }
