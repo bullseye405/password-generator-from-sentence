@@ -1,7 +1,11 @@
-import { useState } from "react";
-import { Input, Button, TextField, Box, Typography, Card } from "@mui/material";
+import { useState, useEffect } from "react";
+import { Button, TextField, Box, Typography, Grid, styled } from "@mui/material";
+import { Container } from "@mui/system";
+
+import { handlePasswordGenerate } from "./utils";
 
 import "./styles.css";
+import { CopyAllOutlined, ContentCopy } from "@mui/icons-material";
 
 export default function App() {
   const [input, setInput] = useState("");
@@ -10,63 +14,95 @@ export default function App() {
   const handleInputChange = (e) => {
     setInput(e.target.value);
   };
+
   const clearAll = () => {
     setInput("");
     setGenerated("");
   };
-  const handleGenerate = (sentence) => {
-    const specialCharacter = ["!", "@", "#", "$", "%", "^", "&", "*", "(", ")"];
 
-    let data = sentence;
-    let newString = "";
-    const splitWords = data.split(" ");
-    splitWords.map((word, i) => {
-      if (word) {
-        const firstLetter = word[0];
-        const middleLetter = word[Math.ceil(word.length / 2) - 1];
-        const lastLetter =
-          i % 2 === 0 ? word[word.length - 1] : word[word.length - 1].toUpperCase();
-        if (word.length < 3) {
-          newString += firstLetter;
-        } else if (word.length >= 3 && word.length < 5) {
-          newString += lastLetter + firstLetter;
-        } else {
-          newString += lastLetter + middleLetter + firstLetter;
-        }
+  useEffect(() => {
+    const password = handlePasswordGenerate(input);
+    setGenerated(password);
+  }, [input]);
 
-        newString += specialCharacter[i % 10];
-      }
-      return null;
-    });
-
-    setGenerated(newString);
-  };
   return (
-    <Box
-      sx={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", flexGrow: 1 }}
-    >
-      <Card variant="outlined">
-        <TextField
-          id="outlined-basic"
-          label="Type your sentence"
-          variant="outlined"
-          required
-          onChange={handleInputChange}
-        />
+    <Container>
+      <Grid container rowSpacing={2} columnSpacing={2} pt={2}>
+        <Grid item lg md xs>
+          Left Section
+        </Grid>
+        <Grid item lg={8} md={10} xs={12}>
+          <Box display={"flex"}>
+            <TextField
+              id="outlined-basic"
+              label="Type your sentence"
+              value={input}
+              variant="outlined"
+              onChange={handleInputChange}
+              fullWidth
+              // multiline
+            />
+            <Box p={1}>
+              <Button onClick={clearAll} variant="text">
+                Clear
+              </Button>
+            </Box>
+          </Box>
 
-        <Box flex={1}>
-          <Button onClick={clearAll} label="Clear">
-            Clear
-          </Button>
-          <Button variant="contained" onClick={() => handleGenerate(input)} label="Clear">
-            Generate
-          </Button>
-        </Box>
-        <Box>
-          <Typography>{input}</Typography>
-          <Typography variant="h6">{generated}</Typography>
-        </Box>
-      </Card>
-    </Box>
+          <Box display={"flex"}>
+            {!generated ? (
+              <Typography variant="subtitle1">
+                Type a sentence that you will never forget! Password based on your sentence will be
+                generated here.
+              </Typography>
+            ) : (
+              <>
+                <Box
+                  borderRadius={1}
+                  p={1}
+                  mr={1}
+                  mt={1}
+                  flex={1}
+                  display={"flex"}
+                  justifyContent={"space-between"}
+                  bgcolor={"#f5f5f5"}
+                >
+                  <Typography variant="subtitle1">{input}</Typography>
+                  <Button p={0}>
+                    <ContentCopy />
+                  </Button>
+                </Box>
+
+                <Box
+                  borderRadius={1}
+                  p={1}
+                  mr={1}
+                  mt={1}
+                  flex={1}
+                  display={"flex"}
+                  justifyContent={"space-between"}
+                  alignItems="center"
+                  bgcolor={"#f5f5f5"}
+                >
+                  <Typography
+                    variant="subtitle1"
+                    alignContent={"center"}
+                    style={{ wordBreak: "break-word" }}
+                  >
+                    {generated}
+                  </Typography>
+                  <Button>
+                    <ContentCopy />
+                  </Button>
+                </Box>
+              </>
+            )}
+          </Box>
+        </Grid>
+        <Grid item lg md xs>
+          <Box>Right Section</Box>
+        </Grid>
+      </Grid>
+    </Container>
   );
 }
