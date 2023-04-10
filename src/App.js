@@ -1,12 +1,11 @@
-import React from 'react'
-import { useState, useEffect } from "react";
-import { Button, TextField, Box, Typography, Grid, styled } from "@mui/material";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { Container } from "@mui/system";
+import React, { useEffect, useState } from "react";
 
 import { handlePasswordGenerate } from "./utils";
 
+import { ContentCopy } from "@mui/icons-material";
 import "./styles.css";
-import { CopyAllOutlined, ContentCopy } from "@mui/icons-material";
 
 export default function App() {
   const [input, setInput] = useState("");
@@ -69,7 +68,12 @@ export default function App() {
                   bgcolor={"#f5f5f5"}
                 >
                   <Typography variant="subtitle1">{input}</Typography>
-                  <Button p={0}>
+                  <Button
+                    p={0}
+                    onClick={() => {
+                      navigator.clipboard.writeText(input)
+                    }}
+                  >
                     <ContentCopy />
                   </Button>
                 </Box>
@@ -92,7 +96,11 @@ export default function App() {
                   >
                     {generated}
                   </Typography>
-                  <Button>
+                  <Button
+                    onClick={() => {
+                      navigator.clipboard.writeText(generated);
+                    }}
+                  >
                     <ContentCopy />
                   </Button>
                 </Box>

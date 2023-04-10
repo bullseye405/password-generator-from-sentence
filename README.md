@@ -10,5 +10,8 @@ To do
 
 - Functionality
   - Copy generated text
+    `onClick={() => {navigator.clipboard.writeText(this.state.textToCopy)}}`
+    - Show 'copy to clipboard' alert
+
   - State for recent generated passwords
   - Check strength of password
