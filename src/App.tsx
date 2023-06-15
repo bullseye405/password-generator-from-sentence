@@ -1,17 +1,18 @@
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
-import { Container } from "@mui/system";
-import React, { useEffect, useState } from "react";
+import { Box, Button, Card, Container, Grid, TextField, Typography } from "@mui/material";
+import React, { useEffect, useMemo, useState } from "react";
 
-import { handlePasswordGenerate } from "./utils";
+import { StrengthEnum, checkPasswordStrength, handlePasswordGenerate } from "./utils";
 
 import { ContentCopy } from "@mui/icons-material";
 import "./styles.css";
+import { CustomLinearProgress } from "./CustomProgress";
+import PasswordStrength from "./PasswordStrength";
 
 export default function App() {
   const [input, setInput] = useState("");
   const [generated, setGenerated] = useState("");
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: { target: { value: React.SetStateAction<string> } }) => {
     setInput(e.target.value);
   };
 
@@ -25,12 +26,18 @@ export default function App() {
     setGenerated(password);
   }, [input]);
 
+  const strengthData = useMemo(() => {
+    return checkPasswordStrength(generated);
+  }, [generated]);
+
+  console.log({ strengthData });
+
   return (
     <Container>
       <Grid container rowSpacing={2} columnSpacing={2} pt={2}>
-        <Grid item lg md xs>
+        {/* <Grid item lg md xs>
           Left Section
-        </Grid>
+        </Grid> */}
         <Grid item lg={8} md={10} xs={12}>
           <Box display={"flex"}>
             <TextField
@@ -69,9 +76,8 @@ export default function App() {
                 >
                   <Typography variant="subtitle1">{input}</Typography>
                   <Button
-                    p={0}
                     onClick={() => {
-                      navigator.clipboard.writeText(input)
+                      navigator.clipboard.writeText(input);
                     }}
                   >
                     <ContentCopy />
@@ -107,10 +113,17 @@ export default function App() {
               </>
             )}
           </Box>
+          <PasswordStrength
+            // color={StrengthEnum.VERY_WEAK.color}
+            // value={45}
+            // emoji={StrengthEnum.VERY_WEAK.emoji}
+            {...strengthData}
+            value={strengthData.value || 0}
+          />
         </Grid>
-        <Grid item lg md xs>
+        {/* <Grid item lg md xs>
           <Box>Right Section</Box>
-        </Grid>
+        </Grid> */}
       </Grid>
     </Container>
   );
