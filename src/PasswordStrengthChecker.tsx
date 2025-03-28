@@ -1,23 +1,31 @@
-import React from 'react';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import {
   Box,
+  Checkbox,
   LinearProgress,
-  Typography,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
+  Slider,
+  Typography,
 } from '@mui/material';
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
+import React, { useState } from 'react';
+
+import { CheckBoxState, CheckBoxValue } from './utils';
 
 interface PasswordStrengthCheckerProps {
   password: string;
+  checkBoxState?: CheckBoxState;
+  setCheckBoxState?: React.Dispatch<React.SetStateAction<CheckBoxState>>;
+  length?: number;
+  setLength?: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const calculatePasswordStrength = (password: string): number => {
   let strength = 0;
-  if (password.length >= 8) strength += 1;
+  if (password.length >= 12) strength += 1;
   if (/[A-Z]/.test(password)) strength += 1;
   if (/[a-z]/.test(password)) strength += 1;
   if (/[0-9]/.test(password)) strength += 1;
@@ -27,6 +35,10 @@ const calculatePasswordStrength = (password: string): number => {
 
 const PasswordStrengthChecker: React.FC<PasswordStrengthCheckerProps> = ({
   password,
+  checkBoxState,
+  setCheckBoxState,
+  length,
+  setLength,
 }) => {
   const strength = calculatePasswordStrength(password);
 
@@ -42,19 +54,76 @@ const PasswordStrengthChecker: React.FC<PasswordStrengthCheckerProps> = ({
     return 'error.main';
   };
 
-  const criteria = [
-    { label: 'At least 8 characters', valid: password.length >= 8 },
-    { label: 'Contains uppercase letters', valid: /[A-Z]/.test(password) },
-    { label: 'Contains lowercase letters', valid: /[a-z]/.test(password) },
-    { label: 'Contains numbers', valid: /[0-9]/.test(password) },
+  const criteria: { label: string; valid: boolean; name?: CheckBoxValue }[] = [
+    { label: 'At least 12 characters', valid: password.length >= 12 },
     {
-      label: 'Contains special characters',
+      label: 'Contains uppercase letters',
+      valid: /[A-Z]/.test(password),
+      name: CheckBoxValue.uppercase,
+    },
+    {
+      label: 'Contains lowercase letters',
+      valid: /[a-z]/.test(password),
+      name: CheckBoxValue.lowercase,
+    },
+    {
+      label: 'Contains numbers',
+      valid: /[0-9]/.test(password),
+      name: CheckBoxValue.numbers,
+    },
+    {
+      label: 'Contains symbols',
       valid: /[^A-Za-z0-9]/.test(password),
+      name: CheckBoxValue.symbols,
     },
   ];
 
   return (
     <Box my={2}>
+      <List>
+        {criteria.map((criterion, index) => (
+          <ListItem key={index}>
+            <ListItemIcon>
+              {criterion.valid ? (
+                <CheckIcon color="primary" />
+              ) : (
+                <CloseIcon color="error" />
+              )}
+            </ListItemIcon>
+            <ListItemText primary={criterion.label} />
+            {checkBoxState && (
+              <>
+                {criterion.name ? (
+                  <Checkbox
+                    sx={{ padding: 0 }}
+                    size="small"
+                    checked={checkBoxState[criterion.name]}
+                    onChange={() => {
+                      if (setCheckBoxState && criterion.name) {
+                        setCheckBoxState({
+                          ...checkBoxState,
+                          [criterion.name]: !checkBoxState[criterion.name],
+                        });
+                      }
+                    }}
+                  />
+                ) : (
+                  // Render a slider for password length when criterion.name is undefined
+                  <Slider
+                    value={length}
+                    onChange={(e, newValue) => setLength?.(newValue as number)}
+                    min={1}
+                    max={32}
+                    step={1}
+                    valueLabelDisplay="auto"
+                    sx={{ width: 150 }}
+                  />
+                )}
+              </>
+            )}
+          </ListItem>
+        ))}
+      </List>
       <Typography variant="subtitle1">
         Password Strength: {getStrengthLabel(strength)}
       </Typography>
@@ -69,20 +138,6 @@ const PasswordStrengthChecker: React.FC<PasswordStrengthCheckerProps> = ({
           },
         }}
       />
-      <List>
-        {criteria.map((criterion, index) => (
-          <ListItem key={index}>
-            <ListItemIcon>
-              {criterion.valid ? (
-                <CheckIcon color="primary" />
-              ) : (
-                <CloseIcon color="error" />
-              )}
-            </ListItemIcon>
-            <ListItemText primary={criterion.label} />
-          </ListItem>
-        ))}
-      </List>
     </Box>
   );
 };
