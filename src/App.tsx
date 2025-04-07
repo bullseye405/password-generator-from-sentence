@@ -1,22 +1,34 @@
-import { Box, Container, Divider } from '@mui/material';
+import {
+  Box,
+  Container,
+  Divider,
+  useMediaQuery
+} from '@mui/material';
 import React from 'react';
 
 import PasswordGeneratorFromSentence from './PasswordGeneratorFromSentence';
-
-import './styles.css';
 import RandomPasswordGenerator from './RandomPasswordGenerator';
+import './styles.css';
 
 export default function App() {
+  const isMobile = useMediaQuery('(max-width:600px)'); // Check if the screen width is less than 600px
+
   return (
     <Container
       sx={{
         height: '100vh',
         overflow: 'auto',
+        padding: 3
       }}
     >
-      <Box display={'flex'} gap={3} height={'100%'}>
+      <Box
+        display={'flex'}
+        gap={3}
+        height={'100%'}
+        flexDirection={isMobile ? 'column' : 'row'}
+      >
         <PasswordGeneratorFromSentence />
-        <Divider orientation="vertical" flexItem />
+        <Divider orientation={isMobile ? 'horizontal' : 'vertical'} flexItem />
         <RandomPasswordGenerator />
       </Box>
     </Container>

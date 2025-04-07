@@ -21,8 +21,8 @@ const RandomPasswordGenerator = () => {
     setLength(e.target.value.length);
   };
   return (
-    <Box my={2} flex={1}>
-       <Typography variant="h4" gutterBottom>
+    <Box flex={1}>
+       <Typography variant="h5" gutterBottom>
         Random Password Generator
       </Typography>
       <GeneratedPassword

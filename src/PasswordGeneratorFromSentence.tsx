@@ -28,8 +28,8 @@ const PasswordGeneratorFromSentence = () => {
   }, [input]);
 
   return (
-    <Box my={2} flex={1}>
-      <Typography variant="h4" gutterBottom>
+    <Box flex={1}>
+      <Typography variant="h5" gutterBottom>
         Password Generator from Sentence
       </Typography>
       <GeneratedPassword content={generated} />

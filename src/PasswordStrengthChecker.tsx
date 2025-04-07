@@ -80,9 +80,9 @@ const PasswordStrengthChecker: React.FC<PasswordStrengthCheckerProps> = ({
 
   return (
     <Box my={2}>
-      <List>
+      <List disablePadding>
         {criteria.map((criterion, index) => (
-          <ListItem key={index}>
+          <ListItem key={index} disableGutters>
             <ListItemIcon>
               {criterion.valid ? (
                 <CheckIcon color="primary" />
