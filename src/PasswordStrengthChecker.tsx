@@ -96,7 +96,6 @@ const PasswordStrengthChecker: React.FC<PasswordStrengthCheckerProps> = ({
                 {criterion.name ? (
                   <Checkbox
                     sx={{ padding: 0 }}
-                    size="small"
                     checked={checkBoxState[criterion.name]}
                     onChange={() => {
                       if (setCheckBoxState && criterion.name) {
@@ -108,15 +107,14 @@ const PasswordStrengthChecker: React.FC<PasswordStrengthCheckerProps> = ({
                     }}
                   />
                 ) : (
-                  // Render a slider for password length when criterion.name is undefined
                   <Slider
                     value={length}
-                    onChange={(e, newValue) => setLength?.(newValue as number)}
+                    onChange={(_, newValue) => setLength?.(newValue as number)}
                     min={1}
                     max={32}
                     step={1}
                     valueLabelDisplay="auto"
-                    sx={{ width: 150 }}
+                    sx={{ width: 100 }}
                   />
                 )}
               </>

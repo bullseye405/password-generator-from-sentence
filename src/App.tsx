@@ -1,9 +1,4 @@
-import {
-  Box,
-  Container,
-  Divider,
-  useMediaQuery
-} from '@mui/material';
+import { Container, Divider, useMediaQuery } from '@mui/material';
 import React from 'react';
 
 import PasswordGeneratorFromSentence from './PasswordGeneratorFromSentence';
@@ -18,21 +13,16 @@ export default function App() {
       sx={{
         height: '100vh',
         overflow: 'auto',
-        padding: 3,
+        py: 2,
         scrollBehavior: 'smooth',
-        WebkitOverflowScrolling: 'touch',
+        display: 'flex',
+        gap: 3,
+        flexDirection: isMobile ? 'column' : 'row',
       }}
     >
-      <Box
-        display={'flex'}
-        gap={3}
-        height={'100%'}
-        flexDirection={isMobile ? 'column' : 'row'}
-      >
-        <PasswordGeneratorFromSentence />
-        <Divider orientation={isMobile ? 'horizontal' : 'vertical'} flexItem />
-        <RandomPasswordGenerator />
-      </Box>
+      <PasswordGeneratorFromSentence />
+      <Divider orientation={isMobile ? 'horizontal' : 'vertical'} flexItem />
+      <RandomPasswordGenerator />
     </Container>
   );
 }
