@@ -14,7 +14,7 @@ const GeneratedPassword = ({
   return (
     <TextField
       value={content}
-      placeholder="Password based on your sentence will be generated here."
+      placeholder="Password will be generated here."
       disabled={!handleInputChange}
       onChange={handleInputChange}
       fullWidth

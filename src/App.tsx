@@ -18,7 +18,9 @@ export default function App() {
       sx={{
         height: '100vh',
         overflow: 'auto',
-        padding: 3
+        padding: 3,
+        scrollBehavior: 'smooth',
+        WebkitOverflowScrolling: 'touch',
       }}
     >
       <Box
