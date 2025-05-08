@@ -1,28 +1,43 @@
-import { Container, Divider, useMediaQuery } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import React from 'react';
 
+import HeroHeader from './HeroHeader';
+import NavBar from './NavBar';
 import PasswordGeneratorFromSentence from './PasswordGeneratorFromSentence';
 import RandomPasswordGenerator from './RandomPasswordGenerator';
 import './styles.css';
 
 export default function App() {
-  const isMobile = useMediaQuery('(max-width:600px)'); // Check if the screen width is less than 600px
-
   return (
-    <Container
-      sx={{
-        height: '100vh',
-        overflow: 'auto',
-        py: 2,
-        scrollBehavior: 'smooth',
-        display: 'flex',
-        gap: 3,
-        flexDirection: isMobile ? 'column' : 'row',
-      }}
-    >
-      <PasswordGeneratorFromSentence />
-      <Divider orientation={isMobile ? 'horizontal' : 'vertical'} flexItem />
-      <RandomPasswordGenerator />
-    </Container>
+    <>
+      <NavBar />
+
+      <HeroHeader />
+
+      <Container
+        sx={{
+          overflow: 'auto',
+          // py: 4,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          // gap: 4,
+        }}
+      >
+        <PasswordGeneratorFromSentence />
+
+        <Box sx={{ textAlign: 'center', mt: 6, mb: 4 }}>
+          <Typography variant="h5" fontWeight={600} gutterBottom>
+            Prefer full control?
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Use the random password generator below to customize your password
+            settings.
+          </Typography>
+        </Box>
+
+        <RandomPasswordGenerator />
+      </Container>
+    </>
   );
 }
