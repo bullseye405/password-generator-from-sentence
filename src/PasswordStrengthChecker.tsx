@@ -123,7 +123,7 @@ const PasswordStrengthChecker: React.FC<PasswordStrengthCheckerProps> = ({
         ))}
       </List>
       <Typography variant="subtitle1">
-        Password Strength: {getStrengthLabel(strength)}
+        {getStrengthLabel(strength)}
       </Typography>
       <LinearProgress
         variant="determinate"
