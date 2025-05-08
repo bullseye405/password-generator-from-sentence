@@ -31,12 +31,11 @@ const RandomPasswordGenerator = () => {
   };
 
   return (
-    <Box p={2} width="100%">
+    <Box>
       <Paper
         elevation={3}
         sx={{
           p: { xs: 2, sm: 4 },
-          width: '100%',
           maxWidth: 600,
           borderRadius: 3,
           mx: 'auto',
