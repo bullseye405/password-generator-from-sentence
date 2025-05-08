@@ -40,7 +40,7 @@ const PasswordGeneratorFromSentence = () => {
   }, [input]);
 
   return (
-    <Box>
+    <Box width={isMobile ? 'auto' : '100%'}>
       <Paper
         elevation={3}
         sx={{
