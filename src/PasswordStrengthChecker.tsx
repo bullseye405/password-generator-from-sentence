@@ -11,9 +11,15 @@ import {
   Slider,
   Typography,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React from 'react';
 
-import { CheckBoxState, CheckBoxValue } from './utils';
+import {
+  calculatePasswordStrength,
+  CheckBoxState,
+  CheckBoxValue,
+  getProgressColor,
+  getStrengthLabel,
+} from './utils';
 
 interface PasswordStrengthCheckerProps {
   password: string;
@@ -22,16 +28,6 @@ interface PasswordStrengthCheckerProps {
   length?: number;
   setLength?: React.Dispatch<React.SetStateAction<number>>;
 }
-
-const calculatePasswordStrength = (password: string): number => {
-  let strength = 0;
-  if (password.length >= 12) strength += 1;
-  if (/[A-Z]/.test(password)) strength += 1;
-  if (/[a-z]/.test(password)) strength += 1;
-  if (/[0-9]/.test(password)) strength += 1;
-  if (/[^A-Za-z0-9]/.test(password)) strength += 1;
-  return (strength / 5) * 100;
-};
 
 const PasswordStrengthChecker: React.FC<PasswordStrengthCheckerProps> = ({
   password,
@@ -42,44 +38,32 @@ const PasswordStrengthChecker: React.FC<PasswordStrengthCheckerProps> = ({
 }) => {
   const strength = calculatePasswordStrength(password);
 
-  const getStrengthLabel = (strength: number): string => {
-    if (strength === 100) return 'Strong';
-    if (strength >= 60) return 'Medium';
-    return 'Weak';
-  };
-
-  const getProgressColor = (strength: number): string => {
-    if (strength === 100) return 'success.main';
-    if (strength >= 60) return 'warning.main';
-    return 'error.main';
-  };
-
   const criteria: { label: string; valid: boolean; name?: CheckBoxValue }[] = [
     { label: 'At least 12 characters', valid: password.length >= 12 },
     {
-      label: 'Contains uppercase letters',
+      label: 'Uppercase letters',
       valid: /[A-Z]/.test(password),
       name: CheckBoxValue.uppercase,
     },
     {
-      label: 'Contains lowercase letters',
+      label: 'Lowercase letters',
       valid: /[a-z]/.test(password),
       name: CheckBoxValue.lowercase,
     },
     {
-      label: 'Contains numbers',
+      label: 'Numbers',
       valid: /[0-9]/.test(password),
       name: CheckBoxValue.numbers,
     },
     {
-      label: 'Contains symbols',
+      label: 'Symbols',
       valid: /[^A-Za-z0-9]/.test(password),
       name: CheckBoxValue.symbols,
     },
   ];
 
   return (
-    <Box my={2}>
+    <Box>
       <List disablePadding>
         {criteria.map((criterion, index) => (
           <ListItem key={index} disableGutters>
@@ -122,9 +106,7 @@ const PasswordStrengthChecker: React.FC<PasswordStrengthCheckerProps> = ({
           </ListItem>
         ))}
       </List>
-      <Typography variant="subtitle1">
-        {getStrengthLabel(strength)}
-      </Typography>
+      <Typography variant="subtitle1">{getStrengthLabel(strength)}</Typography>
       <LinearProgress
         variant="determinate"
         value={strength}

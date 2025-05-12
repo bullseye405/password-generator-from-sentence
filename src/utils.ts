@@ -185,3 +185,25 @@ export const generateRandomPassword = (
     return '';
   }
 };
+
+export const getStrengthLabel = (strength: number): string => {
+  if (strength === 100) return 'Strong';
+  if (strength >= 60) return 'Medium';
+  return 'Weak';
+};
+
+export const calculatePasswordStrength = (password: string): number => {
+  let strength = 0;
+  if (password.length >= 12) strength += 1;
+  if (/[A-Z]/.test(password)) strength += 1;
+  if (/[a-z]/.test(password)) strength += 1;
+  if (/[0-9]/.test(password)) strength += 1;
+  if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+  return (strength / 5) * 100;
+};
+
+export const getProgressColor = (strength: number): string => {
+  if (strength === 100) return 'success.main';
+  if (strength >= 60) return 'warning.main';
+  return 'error.main';
+};

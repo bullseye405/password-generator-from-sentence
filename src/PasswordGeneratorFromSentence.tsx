@@ -8,7 +8,7 @@ import {
   TextField,
   Typography,
   useMediaQuery,
-  useTheme
+  useTheme,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 
@@ -95,17 +95,13 @@ const PasswordGeneratorFromSentence = () => {
 
         <Divider sx={{ my: 3 }} />
 
-        {generated && (
-          <>
-            <Typography variant="subtitle2" gutterBottom>
-              Generated Password
-            </Typography>
-            <GeneratedPassword content={generated} />
-            <Box mt={2}>
-              <PasswordStrengthChecker password={generated} />
-            </Box>
-          </>
-        )}
+        <Typography variant="subtitle2" gutterBottom>
+          Generated Password
+        </Typography>
+        <GeneratedPassword content={generated} />
+        <Box mt={2}>
+          <PasswordStrengthChecker password={generated} />
+        </Box>
       </Paper>
     </Box>
   );
