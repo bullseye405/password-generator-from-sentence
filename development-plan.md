@@ -8,7 +8,7 @@
 
 ### 🎯 Define Purpose
 - [x] Turn memorable phrases into strong passwords
-- [ ] Add a short one-liner description to the UI  
+- [x] Add a short one-liner description to the UI  
   _“Turn your favorite phrase into a strong, secure password — and actually remember it.”_
 
 ### 👤 Target Users
@@ -31,11 +31,11 @@
   - App name: “PhraseLock”
   - GitHub link
   - Optional dark/light toggle
-- [ ] **Hero Section**
+- [x] **Hero Section**
   - App title
   - Subtitle with purpose
   - Example input phrases
-- [ ] **Main Generator Tool**
+- [x] **Main Generator Tool**
   - Phrase input field
   - Strength meter
   - Password preview box
@@ -49,11 +49,11 @@
   - © Year, open source mention
 
 ### 💅 Styling Goals
-- [ ] Wrap sections in `Paper` or `Card`
-- [ ] Use spacing and alignment with `Box`
-- [ ] Use `Typography` variants consistently
-- [ ] Use `Divider` to break sections
-- [ ] Responsive layout
+- [x] Wrap sections in `Paper` or `Card`
+- [x] Use spacing and alignment with `Box`
+- [x] Use `Typography` variants consistently
+- [x] Use `Divider` to break sections
+- [x] Responsive layout
 - [ ] Animations on hover or interaction
 
 ---
@@ -70,8 +70,8 @@
 - [ ] Copy password to clipboard with feedback
 - [ ] Show snackbar/toast on copy
 - [ ] Checkboxes to toggle rules (symbols, digits, caps)
-- [ ] Slider for password length
-- [ ] Password preview visibility toggle
+- [x] Slider for password length
+- [x] Password preview visibility toggle
 - [ ] Recent generated passwords (optional)
 - [ ] Suggested example phrases
 
@@ -103,7 +103,7 @@
 ## 💼 PHASE 5: DEPLOY & SHARE
 
 ### 🌐 Deploy
-- [ ] Deploy app to [Vercel](https://vercel.com) or [Netlify](https://netlify.com)
+- [x] Deploy app to [Vercel](https://vercel.com) or [Netlify](https://netlify.com)
 - [ ] Optional: add custom domain
 
 ### 📣 Share
