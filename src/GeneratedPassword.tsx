@@ -1,6 +1,6 @@
-import { ContentCopy } from '@mui/icons-material';
-import { IconButton, TextField } from '@mui/material';
-import React from 'react';
+import { ContentCopy, Visibility, VisibilityOff } from '@mui/icons-material';
+import { Box, IconButton, TextField } from '@mui/material';
+import React, { useState } from 'react';
 import { calculatePasswordStrength, getProgressColor } from './utils';
 
 const GeneratedPassword = ({
@@ -12,10 +12,16 @@ const GeneratedPassword = ({
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
     | undefined;
 }) => {
+  const [showPassword, setShowPassword] = useState(false);
+
   const strength = calculatePasswordStrength(content);
   const progressColor = getProgressColor(strength);
 
   const editable = handleInputChange !== undefined;
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   return (
     <TextField
@@ -35,16 +41,26 @@ const GeneratedPassword = ({
       disabled={!editable}
       onChange={handleInputChange}
       fullWidth
+      type={showPassword ? 'text' : 'password'}
       InputProps={{
         endAdornment: (
-          <IconButton
-            disabled={!content}
-            onClick={() => {
-              navigator.clipboard.writeText(content);
-            }}
-          >
-            <ContentCopy fontSize="small" />
-          </IconButton>
+          <Box display={'flex'} alignItems="center">
+            <IconButton onClick={togglePasswordVisibility} size="small">
+              {showPassword ? (
+                <Visibility fontSize="small" />
+              ) : (
+                <VisibilityOff fontSize="small" />
+              )}
+            </IconButton>
+            <IconButton
+              disabled={!content}
+              onClick={() => {
+                navigator.clipboard.writeText(content);
+              }}
+            >
+              <ContentCopy fontSize="small" />
+            </IconButton>
+          </Box>
         ),
       }}
     />
