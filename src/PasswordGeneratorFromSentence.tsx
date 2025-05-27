@@ -69,6 +69,19 @@ const PasswordGeneratorFromSentence = () => {
           easy to remember but hard to crack.
         </Typography>
 
+        <input
+          type="text"
+          name="fake-username"
+          autoComplete="username"
+          style={{ display: 'none' }}
+        />
+        <input
+          type="password"
+          name="fake-password"
+          autoComplete="new-password"
+          style={{ display: 'none' }}
+        />
+
         <TextField
           fullWidth
           placeholder="e.g. I drink 3 cups of coffee every morning!"

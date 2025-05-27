@@ -137,10 +137,10 @@ export enum CheckBoxValue {
 export type CheckBoxState = Record<CheckBoxValue, boolean>;
 
 export const initialCheckBoxState: CheckBoxState = {
-  [CheckBoxValue.uppercase]: false,
+  [CheckBoxValue.uppercase]: true,
   [CheckBoxValue.lowercase]: true,
-  [CheckBoxValue.numbers]: false,
-  [CheckBoxValue.symbols]: false,
+  [CheckBoxValue.numbers]: true,
+  [CheckBoxValue.symbols]: true,
 };
 
 const CHARACTER_SETS: Record<CheckBoxValue, [string, number]> = {
@@ -170,7 +170,6 @@ export const generateRandomPassword = (
       for (let i = 0; i < length; i++) {
         const randSetIndex = Math.floor(Math.random() * includedSets.length);
         const randSet = includedSets[randSetIndex];
-        console.log({ includedSets, randSet, randSetIndex });
 
         const randCharIndex = Math.floor(Math.random() * randSet.length);
         const randChar = randSet[randCharIndex];

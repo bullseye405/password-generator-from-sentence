@@ -1,17 +1,20 @@
+import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import RemoveIcon from '@mui/icons-material/Remove';
 import {
   Box,
-  Checkbox,
+  IconButton,
   LinearProgress,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
   Slider,
+  Switch,
   Typography,
 } from '@mui/material';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 
 import {
   calculatePasswordStrength,
@@ -36,10 +39,54 @@ const PasswordStrengthChecker: React.FC<PasswordStrengthCheckerProps> = ({
   length,
   setLength,
 }) => {
+  const [showValueLabel, setShowValueLabel] = useState(false);
+  const hideTimeout = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const delayTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleShowValueLabel = () => {
+    setShowValueLabel(true);
+    if (hideTimeout.current) clearTimeout(hideTimeout.current);
+    hideTimeout.current = setTimeout(() => setShowValueLabel(false), 1000);
+  };
+
+  const startChangingLength = (type: 'inc' | 'dec') => {
+    if (!setLength) return;
+
+    const updateLength = () => {
+      setLength((prev) => {
+        const current = prev ?? 1;
+        const newVal =
+          type === 'inc' ? Math.min(32, current + 1) : Math.max(1, current - 1);
+        return newVal;
+      });
+      handleShowValueLabel();
+    };
+
+    // Step 1: do it once immediately
+    updateLength();
+
+    // Step 2: start interval after delay
+    delayTimeoutRef.current = setTimeout(() => {
+      intervalRef.current = setInterval(updateLength, 100);
+    }, 500); // 500ms delay before repeating
+  };
+
+  const stopChangingLength = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+    if (delayTimeoutRef.current) {
+      clearTimeout(delayTimeoutRef.current);
+      delayTimeoutRef.current = null;
+    }
+  };
+
   const strength = calculatePasswordStrength(password);
 
   const criteria: { label: string; valid: boolean; name?: CheckBoxValue }[] = [
-    { label: 'At least 12 characters', valid: password.length >= 12 },
+    { label: 'At least 16 characters', valid: password.length >= 16 },
     {
       label: 'Uppercase letters',
       valid: /[A-Z]/.test(password),
@@ -78,8 +125,7 @@ const PasswordStrengthChecker: React.FC<PasswordStrengthCheckerProps> = ({
             {checkBoxState && (
               <>
                 {criterion.name ? (
-                  <Checkbox
-                    sx={{ padding: 0 }}
+                  <Switch
                     checked={checkBoxState[criterion.name]}
                     onChange={() => {
                       if (setCheckBoxState && criterion.name) {
@@ -91,22 +137,50 @@ const PasswordStrengthChecker: React.FC<PasswordStrengthCheckerProps> = ({
                     }}
                   />
                 ) : (
-                  <Slider
-                    value={length}
-                    onChange={(_, newValue) => setLength?.(newValue as number)}
-                    min={1}
-                    max={32}
-                    step={1}
-                    valueLabelDisplay="auto"
-                    sx={{ width: 100 }}
-                  />
+                  <Box display="flex" alignItems="center" gap={1}>
+                    <IconButton
+                      size="small"
+                      onMouseDown={() => startChangingLength('dec')}
+                      onMouseUp={stopChangingLength}
+                      onMouseLeave={stopChangingLength}
+                      onTouchStart={() => startChangingLength('dec')}
+                      onTouchEnd={stopChangingLength}
+                      disabled={length === 1}
+                    >
+                      <RemoveIcon fontSize="small" />
+                    </IconButton>
+                    <Slider
+                      value={length}
+                      onChange={(_, newValue) =>
+                        setLength?.(newValue as number)
+                      }
+                      min={1}
+                      max={32}
+                      step={1}
+                      valueLabelDisplay={showValueLabel ? 'on' : 'auto'}
+                      sx={{ width: 100 }}
+                    />
+                    <IconButton
+                      size="small"
+                      onMouseDown={() => startChangingLength('inc')}
+                      onMouseUp={stopChangingLength}
+                      onMouseLeave={stopChangingLength}
+                      onTouchStart={() => startChangingLength('inc')}
+                      onTouchEnd={stopChangingLength}
+                      disabled={length === 32}
+                    >
+                      <AddIcon fontSize="small" />
+                    </IconButton>
+                  </Box>
                 )}
               </>
             )}
           </ListItem>
         ))}
       </List>
-      <Typography variant="subtitle1">{getStrengthLabel(strength)}</Typography>
+      <Typography variant="subtitle1">
+        {password ? getStrengthLabel(strength) : ''}
+      </Typography>
       <LinearProgress
         variant="determinate"
         value={strength}
