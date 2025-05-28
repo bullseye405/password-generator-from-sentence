@@ -1,4 +1,4 @@
-import { Analytics } from '@vercel/analytics/next';
+import { inject } from '@vercel/analytics';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import React, { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
@@ -11,8 +11,9 @@ if (rootElement) {
   createRoot(rootElement).render(
     <StrictMode>
       <App />
-      <Analytics />
       <SpeedInsights />
     </StrictMode>
   );
 }
+
+inject();
