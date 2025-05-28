@@ -1,15 +1,18 @@
-import React, { StrictMode } from "react";
-import ReactDOM from "react-dom";
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/react';
+import React, { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 
-import App from "./App";
+import App from './App';
 
-const rootElement = document.getElementById("root");
+const rootElement = document.getElementById('root');
 
 if (rootElement) {
-  ReactDOM.render(
+  createRoot(rootElement).render(
     <StrictMode>
       <App />
-    </StrictMode>,
-    rootElement
+      <Analytics />
+      <SpeedInsights />
+    </StrictMode>
   );
 }
