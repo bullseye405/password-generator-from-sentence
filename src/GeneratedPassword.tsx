@@ -12,7 +12,7 @@ const GeneratedPassword = ({
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
     | undefined;
 }) => {
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(true);
 
   const strength = calculatePasswordStrength(content);
   const progressColor = getProgressColor(strength);

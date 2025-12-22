@@ -7,9 +7,9 @@ const NavBar = () => {
       <Typography variant="h2" fontWeight={700} letterSpacing={1}>
         PassForge
       </Typography>
-      <Typography variant="body2" color="text.secondary">
+      {/* <Typography variant="body2" color="text.secondary">
         Generate secure passwords effortlessly
-      </Typography>
+      </Typography> */}
     </Box>
   );
 };

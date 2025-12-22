@@ -1,7 +1,10 @@
-import { Box, Container, Typography } from '@mui/material';
+import { Container } from '@mui/material';
 import React from 'react';
 
+import FeaturesSection from './Features';
+import Footer from './Footer';
 import HeroHeader from './HeroHeader';
+import HowItWorks from './HowItWorks';
 import NavBar from './NavBar';
 import PasswordGeneratorFromSentence from './PasswordGeneratorFromSentence';
 import RandomPasswordGenerator from './RandomPasswordGenerator';
@@ -9,11 +12,13 @@ import './styles.css';
 
 export default function App() {
   return (
-    <>
+    <Container
+      sx={{
+        pb: 3,
+      }}
+    >
       <NavBar />
-
       <HeroHeader />
-
       <Container
         sx={{
           overflow: 'auto',
@@ -26,18 +31,14 @@ export default function App() {
       >
         <PasswordGeneratorFromSentence />
 
-        <Box sx={{ textAlign: 'center', mt: 6, mb: 4 }}>
-          <Typography variant="h5" fontWeight={600} gutterBottom>
-            Prefer full control?
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Use the random password generator below to customize your password
-            settings.
-          </Typography>
-        </Box>
-
         <RandomPasswordGenerator />
       </Container>
-    </>
+
+      <FeaturesSection />
+
+      <HowItWorks />
+
+      <Footer />
+    </Container>
   );
 }

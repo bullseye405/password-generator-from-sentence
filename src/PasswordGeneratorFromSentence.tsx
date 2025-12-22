@@ -40,9 +40,9 @@ const PasswordGeneratorFromSentence = () => {
   }, [input]);
 
   return (
-    <Box width={isMobile ? 'auto' : '100%'}>
+    <Box width={isMobile ? 'auto' : '100%'} mt={4}>
       <Paper
-        elevation={3}
+        elevation={24}
         sx={{
           p: { xs: 2, sm: 4 },
           maxWidth: 600,
